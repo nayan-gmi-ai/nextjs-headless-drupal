@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { absoluteUrl, formatDate } from "@/lib/utils"
 import type { DrupalNode } from "next-drupal"
+import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react"
 
 interface ArticleProps {
   node: DrupalNode
@@ -40,6 +41,39 @@ export function Article({ node, ...props }: ArticleProps) {
           dangerouslySetInnerHTML={{ __html: node.body?.processed }}
           className="mt-6 font-serif text-xl leading-loose prose"
         />
+      )}
+      {node.field_features?.length > 0 && (
+        <div className="mt-10 space-y-10">
+          <h2>Features</h2>
+          {node.field_features.map((feature: any) => {
+            const image = feature.field_image?.field_media_image
+            console.log(image);
+            
+
+            return (
+              <div key={feature.id} className="flex gap-6 items-start">
+
+                Image
+                {image?.uri?.value && (
+                  <Image
+                    src={absoluteUrl(image.uri.url)}
+                    width={300}
+                    height={200}
+                    alt={image.resourceIdObjMeta?.alt || ""}
+                  />
+                )}
+
+                {/* Content */}
+                {feature.field_content && (
+                  <div className="text-lg">
+                    {feature.field_content}
+                  </div>
+                )}
+
+              </div>
+            )
+          })}
+        </div>
       )}
     </article>
   )
