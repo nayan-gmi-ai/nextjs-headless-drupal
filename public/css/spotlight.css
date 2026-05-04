@@ -1417,4 +1417,20 @@ body .form-control:focus {
   .country-selection {
     margin-bottom: 14px;
   }
-}/*# sourceMappingURL=style-spotlight.css.map */
+}
+
+.loader {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ccc;
+  border-top: 2px solid #000;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/*# sourceMappingURL=style-spotlight.css.map */

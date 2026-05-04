@@ -36,6 +36,7 @@ const schema = yup.object().shape({
 
 const SpotlightForm: React.FC = () => {
 
+  const [loading, setLoading] = React.useState(false);
   const [serverErrors, setServerErrors] = React.useState<string[]>([]);
 
   const {
@@ -55,7 +56,6 @@ const SpotlightForm: React.FC = () => {
         { fullName: "", file: null },
         { fullName: "", file: null },
       ],
-      teamMembers: 0
     },
   });
 
@@ -74,6 +74,7 @@ const SpotlightForm: React.FC = () => {
   };
 
   const onSubmit = async (data: any) => {
+    setLoading(true);
     setServerErrors([]);
 
     try {
@@ -96,9 +97,6 @@ const SpotlightForm: React.FC = () => {
           );
         })
       );
-
-      console.log(uploadedFids);
-      
 
       const payload = {
         webform_id: WEBFORM_ID,
@@ -151,8 +149,8 @@ const SpotlightForm: React.FC = () => {
       });
 
       setServerErrors([]);
-      const modalEl = document.getElementById("spotlightSuccessMsg"); 
-      const modal = new window.bootstrap.Modal(modalEl); 
+      const modalEl = document.getElementById("spotlightSuccessMsg");
+      const modal = new window.bootstrap.Modal(modalEl);
       modal.show();
 
     } catch (error) {
@@ -165,6 +163,8 @@ const SpotlightForm: React.FC = () => {
           .getElementById("form-errors")
           ?.scrollIntoView({ behavior: "smooth" });
       }, 100);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -307,16 +307,22 @@ const SpotlightForm: React.FC = () => {
 
             {/* Submit */}
             <div className="submit-main">
-              <div className="submit-bttn">
+              <div className="submit-bttn" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+
                 <span className="submit-text">
-                  <i>{"SUBMIT"}</i>
+                  <i>{loading ? "SUBMITTING..." : "SUBMIT"}</i>
                 </span>
 
                 <input
-                  // disabled={!isValid}
                   type="submit"
                   className="submit"
+                  disabled={loading}
+                  style={{ cursor: loading ? "not-allowed" : "pointer" }}
                 />
+
+                {loading && (
+                  <div className="loader"></div>
+                )}
               </div>
             </div>
           </form>
