@@ -145,7 +145,6 @@ const SpotlightForm: React.FC = () => {
           { fullName: "", file: null },
           { fullName: "", file: null },
         ],
-        teamMembers: 0,
       });
 
       setServerErrors([]);
