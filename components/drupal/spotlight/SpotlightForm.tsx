@@ -45,7 +45,7 @@ const SpotlightForm: React.FC = () => {
     control,
     watch,
     reset,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
@@ -56,6 +56,7 @@ const SpotlightForm: React.FC = () => {
         { fullName: "", file: null },
         { fullName: "", file: null },
       ],
+      teamMembers: undefined
     },
   });
 
@@ -145,6 +146,7 @@ const SpotlightForm: React.FC = () => {
           { fullName: "", file: null },
           { fullName: "", file: null },
         ],
+        teamMembers: undefined,
       });
 
       setServerErrors([]);
@@ -289,10 +291,20 @@ const SpotlightForm: React.FC = () => {
                     <label className="label-title">
                       {"Non-pitching team members"}
                     </label>
-                    <input
-                      type="text"
-                      placeholder="Number of team members"
-                      {...register("teamMembers", { valueAsNumber: true })}
+                    <Controller
+                      control={control}
+                      name="teamMembers"
+                      render={({ field }) => (
+                        <input
+                          type="number"
+                          placeholder="Number of team members"
+                          value={field.value ?? ""} 
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            field.onChange(val === "" ? undefined : Number(val));
+                          }}
+                        />
+                      )}
                     />
                     {errors.teamMembers && (
                       <span className="error">

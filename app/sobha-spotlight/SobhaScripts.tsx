@@ -12,7 +12,8 @@ export default function SobhaScripts() {
         window.gsap &&
         window.ScrollTrigger &&
         window.Swiper &&
-        window.lottie
+        window.lottie &&
+        typeof window.lottie.loadAnimation == 'function'
       ) {
         clearInterval(checkReady)
 
