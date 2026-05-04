@@ -8,8 +8,6 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  console.log(drupal);
-  
   const nodes = await drupal.getResourceCollection<DrupalNode[]>(
     "node--article",
     {
