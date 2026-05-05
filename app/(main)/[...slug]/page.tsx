@@ -30,7 +30,7 @@ async function getNode(slug: string[]) {
   const tag = `${translatedPath.entity.type}:${translatedPath.entity.id}`
 
   if (type === "node--article") {
-    params.include = "field_features,field_features.field_image.field_media_image,field_image,uid"
+    params.include = "field_image,uid"
   }
 
   const resource = await drupal.getResource<DrupalNode>(type, uuid, {
